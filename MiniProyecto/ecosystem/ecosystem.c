@@ -14,18 +14,36 @@ void initialize_ecosystem(Ecosystem *ecosystem) {
 }
 
 void print_ecosystem(const Ecosystem *ecosystem) {
+    printf("  ");  // Espacio inicial para la etiqueta de columna
+    // Imprimir encabezados de columnas
+    for (int j = 0; j < MATRIX_SIZE; j++) {
+        printf("%2d ", j);
+    }
+    printf("\n");
+
     for (int i = 0; i < MATRIX_SIZE; i++) {
+        printf("%2d ", i);  // Imprimir etiqueta de fila
+
         for (int j = 0; j < MATRIX_SIZE; j++) {
             if (ecosystem->grid[i][j].entity == NULL) {
-                printf(".");
+                printf(".  ");  // Espacio adicional para alineación
             } else {
-                // Determina el tipo de entidad y la imprime
-                if (((Plant *)ecosystem->grid[i][j].entity)->alive) {
-                    printf("P");
-                } else if (((Herbivore *)ecosystem->grid[i][j].entity)->alive) {
-                    printf("H");
-                } else if (((Carnivore *)ecosystem->grid[i][j].entity)->alive) {
-                    printf("C");
+                // Intentamos identificar el tipo de entidad basado en el 'label'
+                char label = ecosystem->grid[i][j].label;
+
+                switch (label) {
+                    case 'P':
+                        printf("P  ");
+                        break;
+                    case 'H':
+                        printf("H  ");
+                        break;
+                    case 'C':
+                        printf("C  ");
+                        break;
+                    default:
+                        printf("?  ");
+                        break;
                 }
             }
         }

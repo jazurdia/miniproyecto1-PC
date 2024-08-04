@@ -1,69 +1,58 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
 #include "ecosystem/ecosystem.h"
-#include "ecosystem/ecosystem.c"
-#include "entities/entities.c"
 #include "entities/entities.h"
-#include "configs.h"
+// Define la cantidad inicial de cada tipo de entidad
+#define INITIAL_PLANTS 5
+#define INITIAL_HERBIVORES 3
+#define INITIAL_CARNIVORES 2
 
 int main() {
-    // Inicializar el generador de números aleatorios
-    srand(40);
-
-
-    // Crear e inicializar la matriz del ecosistema
     Ecosystem ecosystem;
     initialize_ecosystem(&ecosystem);
 
-    // Generar una cantidad aleatoria de plantas, herbívoros y carnívoros
-    int num_plants = rand() % MAX_PLANTS + 1;
-    int num_herbivores = rand() % MAX_HERBIVORES + 1;
-    int num_carnivores = rand() % MAX_CARNIVORES + 1;
+    srand(43); // Inicializa la semilla para números aleatorios
 
-    printf("P: %d\n", num_plants);
-    printf("H: %d\n", num_herbivores);
-    printf("C: %d\n", num_carnivores);
-
-    // Inicializar y colocar las plantas aleatoriamente en la cuadrícula
-    for (int i = 0; i < num_plants; i++) {
+    // Inicializa algunas plantas, herbívoros y carnívoros en posiciones aleatorias
+    for (int i = 0; i < INITIAL_PLANTS; i++) {
         int x = rand() % MATRIX_SIZE;
         int y = rand() % MATRIX_SIZE;
-        Plant plant;
-        initialize_plant(&plant, ecosystem.grid, x, y);
+        initialize_plant(&ecosystem, x, y, 1);
     }
-
-    // Inicializar y colocar los herbívoros aleatoriamente en la cuadrícula
-    for (int i = 0; i < num_herbivores; i++) {
+    for (int i = 0; i < INITIAL_HERBIVORES; i++) {
         int x = rand() % MATRIX_SIZE;
         int y = rand() % MATRIX_SIZE;
-        Herbivore herbivore;
-        initialize_herbivore(&herbivore, ecosystem.grid, x, y);
+        initialize_herbivore(&ecosystem, x, y, 1);
     }
 
-    // Inicializar y colocar los carnívoros aleatoriamente en la cuadrícula
-    for (int i = 0; i < num_carnivores; i++) {
+    for (int i = 0; i < INITIAL_CARNIVORES; i++) {
         int x = rand() % MATRIX_SIZE;
         int y = rand() % MATRIX_SIZE;
-        Carnivore carnivore;
-        initialize_carnivore(&carnivore, ecosystem.grid, x, y);
+        initialize_carnivore(&ecosystem, x, y, 1);
     }
-
     print_ecosystem(&ecosystem);
-
-    for (int i = 0; i < 3 ; i++) {
-        // Por cada P en la matriz, llamar a plant_behavior
+    // Simula la evolución del ecosistema por varios ciclos
+    int cycles = 3;
+    for (int cycle = 0; cycle < cycles; cycle++) {
+        printf("Ciclo %d:\n", cycle);
         for (int i = 0; i < MATRIX_SIZE; i++) {
             for (int j = 0; j < MATRIX_SIZE; j++) {
-                if (ecosystem.grid[i][j] == 'P') {
-                    plant_behavior(ecosystem.grid, i, j);
+                if (ecosystem.grid[i][j].entity != NULL) {
+                    if (ecosystem.grid[i][j].label == 'P') {
+                        plant_behavior(&ecosystem, i, j);
+                    } else if (ecosystem.grid[i][j].label == 'H') {
+                        herbivore_behavior(&ecosystem, i, j);
+                    } else if (ecosystem.grid[i][j].label == 'C') {
+                        carnivore_behavior(&ecosystem, i, j);
+                    }
                 }
             }
         }
-
         print_ecosystem(&ecosystem);
     }
+
+
 
     return 0;
 }

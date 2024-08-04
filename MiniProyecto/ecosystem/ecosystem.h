@@ -5,6 +5,7 @@
 typedef struct {
     int x, y;
     void *entity; // Puntero genérico a una entidad
+    char label;    // Etiqueta
 } Cell;
 
 typedef struct {

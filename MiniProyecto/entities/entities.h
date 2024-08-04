@@ -22,6 +22,8 @@ typedef struct {
 
 // Funciones para inicializar las entidades
 void initialize_plant(Plant *plant, char grid[MATRIX_SIZE][MATRIX_SIZE], int x, int y);
+void plant_behavior(char grid[MATRIX_SIZE][MATRIX_SIZE], int x, int y);
+
 void initialize_herbivore(Herbivore *herbivore, char grid[MATRIX_SIZE][MATRIX_SIZE], int x, int y);
 void initialize_carnivore(Carnivore *carnivore, char grid[MATRIX_SIZE][MATRIX_SIZE], int x, int y);
 

@@ -10,7 +10,8 @@
 
 int main() {
     // Inicializar el generador de números aleatorios
-    srand(time(NULL));
+    srand(40);
+
 
     // Crear e inicializar la matriz del ecosistema
     Ecosystem ecosystem;
@@ -49,8 +50,20 @@ int main() {
         initialize_carnivore(&carnivore, ecosystem.grid, x, y);
     }
 
-    // Imprimir la matriz del ecosistema
     print_ecosystem(&ecosystem);
+
+    for (int i = 0; i < 3 ; i++) {
+        // Por cada P en la matriz, llamar a plant_behavior
+        for (int i = 0; i < MATRIX_SIZE; i++) {
+            for (int j = 0; j < MATRIX_SIZE; j++) {
+                if (ecosystem.grid[i][j] == 'P') {
+                    plant_behavior(ecosystem.grid, i, j);
+                }
+            }
+        }
+
+        print_ecosystem(&ecosystem);
+    }
 
     return 0;
 }

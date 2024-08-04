@@ -14,6 +14,12 @@ void initialize_ecosystem(Ecosystem *ecosystem) {
     }
 }
 
+// Definición de colores ANSI
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_ORANGE  "\x1b[33m"  // Naranja puede ser representado con amarillo
+#define ANSI_COLOR_RESET   "\x1b[0m"
+
 void print_ecosystem(const Ecosystem *ecosystem) {
     printf("  ");  // Espacio inicial para la etiqueta de columna
     // Imprimir encabezados de columnas
@@ -34,13 +40,13 @@ void print_ecosystem(const Ecosystem *ecosystem) {
 
                 switch (label) {
                     case 'P':
-                        printf("P  ");
+                        printf(ANSI_COLOR_GREEN "P  " ANSI_COLOR_RESET);
                         break;
                     case 'H':
-                        printf("H  ");
+                        printf(ANSI_COLOR_BLUE "H  " ANSI_COLOR_RESET);
                         break;
                     case 'C':
-                        printf("C  ");
+                        printf(ANSI_COLOR_ORANGE "C  " ANSI_COLOR_RESET);
                         break;
                     default:
                         printf("?  ");

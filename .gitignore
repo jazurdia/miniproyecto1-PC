@@ -7,3 +7,4 @@
 # Project exclude paths
 /cmake-build-debug/
 *.xml
+/MiniProyecto/cmake-build-debug

@@ -2,6 +2,8 @@
 #include "ecosystem.h"
 #include "../configs.h"
 #include "../entities/entities.h"
+#include <windows.h>
+
 
 void initialize_ecosystem(Ecosystem *ecosystem) {
     for (int i = 0; i < MATRIX_SIZE; i++) {
@@ -12,6 +14,14 @@ void initialize_ecosystem(Ecosystem *ecosystem) {
             ecosystem->grid[i][j].label = '.'; // Etiqueta por defecto
         }
     }
+}
+
+void enable_virtual_terminal_processing() {
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    DWORD dwMode = 0;
+    GetConsoleMode(hOut, &dwMode);
+    dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+    SetConsoleMode(hOut, dwMode);
 }
 
 // Definición de colores ANSI

@@ -33,9 +33,9 @@ int main() {
     }
     print_ecosystem(&ecosystem);
     // Simula la evolución del ecosistema por varios ciclos
-    int cycles = 3;
-    for (int cycle = 0; cycle < cycles; cycle++) {
+    for (int cycle = 0; cycle < CICLOS; cycle++) {
         printf("Ciclo %d:\n", cycle);
+        reset_has_moved(&ecosystem);
         for (int i = 0; i < MATRIX_SIZE; i++) {
             for (int j = 0; j < MATRIX_SIZE; j++) {
                 if (ecosystem.grid[i][j].entity != NULL) {

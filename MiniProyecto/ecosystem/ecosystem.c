@@ -9,6 +9,7 @@ void initialize_ecosystem(Ecosystem *ecosystem) {
             ecosystem->grid[i][j].x = i;
             ecosystem->grid[i][j].y = j;
             ecosystem->grid[i][j].entity = NULL; // No hay entidad en la celda
+            ecosystem->grid[i][j].label = '.'; // Etiqueta por defecto
         }
     }
 }

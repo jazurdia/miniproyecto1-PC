@@ -1,47 +1,34 @@
 #include <stdio.h>
 #include "ecosystem.h"
 #include "../configs.h"
+#include "../entities/entities.h"
 
-
-
-// Inicializa la matriz del ecosistema con un valor predeterminado
 void initialize_ecosystem(Ecosystem *ecosystem) {
     for (int i = 0; i < MATRIX_SIZE; i++) {
         for (int j = 0; j < MATRIX_SIZE; j++) {
-            ecosystem->grid[i][j] = '.';  // Usar '.' para representar una celda vacía
+            ecosystem->grid[i][j].x = i;
+            ecosystem->grid[i][j].y = j;
+            ecosystem->grid[i][j].entity = NULL; // No hay entidad en la celda
         }
     }
 }
 
-// Imprime la matriz del ecosistema con formato mejorado
 void print_ecosystem(const Ecosystem *ecosystem) {
-    // Imprimir encabezado de columnas
-    printf("   ");
-    for (int j = 0; j < MATRIX_SIZE; j++) {
-        printf(" %2d", j);
-    }
-    printf("\n");
-
-    // Imprimir línea superior
-    printf("   +");
-    for (int j = 0; j < MATRIX_SIZE; j++) {
-        printf("---");
-    }
-    printf("+\n");
-
-    // Imprimir cada fila con líneas divisorias
     for (int i = 0; i < MATRIX_SIZE; i++) {
-        printf("%2d |", i); // Número de fila
         for (int j = 0; j < MATRIX_SIZE; j++) {
-            printf(" %c ", ecosystem->grid[i][j]);
+            if (ecosystem->grid[i][j].entity == NULL) {
+                printf(".");
+            } else {
+                // Determina el tipo de entidad y la imprime
+                if (((Plant *)ecosystem->grid[i][j].entity)->alive) {
+                    printf("P");
+                } else if (((Herbivore *)ecosystem->grid[i][j].entity)->alive) {
+                    printf("H");
+                } else if (((Carnivore *)ecosystem->grid[i][j].entity)->alive) {
+                    printf("C");
+                }
+            }
         }
-        printf("|\n");
+        printf("\n");
     }
-
-    // Imprimir línea inferior
-    printf("   +");
-    for (int j = 0; j < MATRIX_SIZE; j++) {
-        printf("---");
-    }
-    printf("+\n");
 }

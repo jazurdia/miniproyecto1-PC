@@ -1,0 +1,9 @@
+
+/.idea
+/cmake-build-debug
+/MiniProyecto/.idea
+
+
+# Project exclude paths
+/cmake-build-debug/
+*.xml

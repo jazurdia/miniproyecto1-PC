@@ -3,16 +3,14 @@
 #include <time.h>
 #include "ecosystem/ecosystem.h"
 #include "entities/entities.h"
-// Define la cantidad inicial de cada tipo de entidad
-#define INITIAL_PLANTS 5
-#define INITIAL_HERBIVORES 3
-#define INITIAL_CARNIVORES 2
+#include "configs.h"
+
 
 int main() {
     Ecosystem ecosystem;
     initialize_ecosystem(&ecosystem);
 
-    srand(43); // Inicializa la semilla para números aleatorios
+    srand(70); // Inicializa la semilla para números aleatorios
 
     // Inicializa algunas plantas, herbívoros y carnívoros en posiciones aleatorias
     for (int i = 0; i < INITIAL_PLANTS; i++) {

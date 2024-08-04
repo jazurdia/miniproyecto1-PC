@@ -82,15 +82,13 @@ void plant_behavior(Ecosystem *ecosystem, int x, int y) {
                     initialize_plant(ecosystem, new_x, new_y, 1); // Crear nueva planta
                     printf("Planta nueva creada en (%d, %d)\n", new_x, new_y);
                 }
-            } else if (((Plant *)ecosystem->grid[new_x][new_y].entity)->alive) {
-                surrounded_by_plants = 0;
             }
         }
     }
 
     // Si está completamente rodeada por plantas, la planta muere
     if (surrounded_by_plants) {
-        free(plant);
+//        free(plant);
         ecosystem->grid[x][y].entity = NULL; // Eliminar la planta
         ecosystem->grid[x][y].label = '.'; // Cambiar la etiqueta de la celda
         printf("Planta eliminada en (%d, %d) por estar rodeada de otras plantas\n", x, y);
@@ -104,7 +102,7 @@ void herbivore_behavior(Ecosystem *ecosystem, int x, int y) {
 
     herbivore->age++;
     if (herbivore->age >= 10) {
-        free(herbivore);
+//        free(herbivore);
         ecosystem->grid[x][y].entity = NULL;
         ecosystem->grid[x][y].label = '.';
         printf("Herbivoro muerto en (%d, %d) por vejez\n", x, y);
@@ -114,7 +112,7 @@ void herbivore_behavior(Ecosystem *ecosystem, int x, int y) {
     int directions[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
     int found_food = 0;
 
-    if (herbivore->energy >= 4) {
+    if (herbivore->energy > 2) {
         for (int i = 0; i < 4; i++) {
             int new_x = x + directions[i][0];
             int new_y = y + directions[i][1];
@@ -139,7 +137,7 @@ void herbivore_behavior(Ecosystem *ecosystem, int x, int y) {
             if (ecosystem->grid[new_x][new_y].label == 'P') {
                 Plant *plant = (Plant *)ecosystem->grid[new_x][new_y].entity;
                 if (plant->alive) {
-                    free(plant);
+//                    free(plant);
                     ecosystem->grid[new_x][new_y].entity = herbivore;
                     ecosystem->grid[x][y].entity = NULL;
                     ecosystem->grid[x][y].label = '.';
@@ -180,7 +178,7 @@ void herbivore_behavior(Ecosystem *ecosystem, int x, int y) {
     }
 
     if (herbivore->energy <= 0) {
-        free(herbivore);
+//        free(herbivore);
         ecosystem->grid[x][y].entity = NULL;
         ecosystem->grid[x][y].label = '.';
         printf("Herbivoro muerto en (%d, %d) por falta de energia\n", x, y);
@@ -194,7 +192,7 @@ void carnivore_behavior(Ecosystem *ecosystem, int x, int y) {
 
     carnivore->age++;
     if (carnivore->age >= 15) {
-        free(carnivore);
+//        free(carnivore);
         ecosystem->grid[x][y].entity = NULL;
         ecosystem->grid[x][y].label = '.';
         printf("Carnivoro muerto en (%d, %d) por vejez\n", x, y);
@@ -205,7 +203,7 @@ void carnivore_behavior(Ecosystem *ecosystem, int x, int y) {
     int directions[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
     int found_food = 0;
 
-    if (carnivore->energy >= 4) {
+    if (carnivore->energy >= 2) {
         for (int i = 0; i < 4; i++) {
             int new_x = x + directions[i][0];
             int new_y = y + directions[i][1];
@@ -215,7 +213,7 @@ void carnivore_behavior(Ecosystem *ecosystem, int x, int y) {
                     //Crear un nuevo carnivoro en la misma celda
                     initialize_carnivore(ecosystem, new_x, new_y, 1);
                     carnivore->energy -= 2;
-                    printf("Carvivoro credo en (%d, %d)\n", new_x, new_y);
+                    printf("Carnivoro creado en (%d, %d)\n", new_x, new_y);
                     break;
                 }
             }
@@ -230,7 +228,7 @@ void carnivore_behavior(Ecosystem *ecosystem, int x, int y) {
             if (ecosystem->grid[new_x][new_y].label == 'H') {
                 Herbivore *herbivore = (Herbivore *)ecosystem->grid[new_x][new_y].entity;
                 if (herbivore->alive) {
-                    free(herbivore);
+//                    free(herbivore);
                     ecosystem->grid[new_x][new_y].entity = carnivore;
                     ecosystem->grid[new_x][new_y].entity = carnivore;
                     ecosystem->grid[new_x][new_y].label = 'C';
@@ -274,7 +272,6 @@ void carnivore_behavior(Ecosystem *ecosystem, int x, int y) {
 
 
     if (carnivore->energy <= 0) {
-        free(carnivore);
         ecosystem->grid[x][y].entity = NULL;
         ecosystem->grid[x][y].label = '.';
         printf("Carnivoro muerto en (%d, %d) por falta de energia\n", x, y);

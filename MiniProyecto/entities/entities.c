@@ -102,7 +102,6 @@ void herbivore_behavior(Ecosystem *ecosystem, int x, int y) {
 
     herbivore->age++;
     if (herbivore->age >= 10) {
-//        free(herbivore);
         ecosystem->grid[x][y].entity = NULL;
         ecosystem->grid[x][y].label = '.';
         printf("Herbivoro muerto en (%d, %d) por vejez\n", x, y);
@@ -112,6 +111,34 @@ void herbivore_behavior(Ecosystem *ecosystem, int x, int y) {
     int directions[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
     int found_food = 0;
 
+    // Logica de escape
+    for (int i = 0; i < 4; i++) {
+        int new_x = x + directions[i][0];
+        int new_y = y + directions[i][1];
+
+        if (new_x >= 0 && new_x < MATRIX_SIZE && new_y >= 0 && new_y < MATRIX_SIZE) {
+            if (ecosystem->grid[new_x][new_y].label == 'C') {
+                // Attempt to move in the opposite direction
+                int opposite_x = x - directions[i][0];
+                int opposite_y = y - directions[i][1];
+
+                if (opposite_x >= 0 && opposite_x < MATRIX_SIZE && opposite_y >= 0 && opposite_y < MATRIX_SIZE) {
+                    if (ecosystem->grid[opposite_x][opposite_y].entity == NULL &&
+                        ecosystem->grid[opposite_x][opposite_y].label != 'C') {
+                        ecosystem->grid[opposite_x][opposite_y].entity = herbivore;
+                        ecosystem->grid[x][y].entity = NULL;
+                        ecosystem->grid[x][y].label = '.';
+                        herbivore->x = opposite_x;
+                        herbivore->y = opposite_y;
+                        ecosystem->grid[opposite_x][opposite_y].label = 'H';
+                        printf("Herbivoro en (%d, %d) escapo de un carnivoro a (%d, %d)\n", x, y, opposite_x, opposite_y);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
     if (herbivore->energy > 2) {
         for (int i = 0; i < 4; i++) {
             int new_x = x + directions[i][0];
@@ -119,7 +146,7 @@ void herbivore_behavior(Ecosystem *ecosystem, int x, int y) {
 
             if (new_x >= 0 && new_x < MATRIX_SIZE && new_y >= 0 && new_y < MATRIX_SIZE) {
                 if (ecosystem->grid[new_x][new_y].entity == NULL) {
-                    //Crear un nuevo herbivoro en la misma celda
+                    // Crear un nuevo herbivoro en la misma celda
                     initialize_herbivore(ecosystem, new_x, new_y, 1);
                     herbivore->energy -= 2;
                     printf("Herbivoro creado en (%d, %d)\n", new_x, new_y);
@@ -137,16 +164,15 @@ void herbivore_behavior(Ecosystem *ecosystem, int x, int y) {
             if (ecosystem->grid[new_x][new_y].label == 'P') {
                 Plant *plant = (Plant *)ecosystem->grid[new_x][new_y].entity;
                 if (plant->alive) {
-//                    free(plant);
                     ecosystem->grid[new_x][new_y].entity = herbivore;
                     ecosystem->grid[x][y].entity = NULL;
                     ecosystem->grid[x][y].label = '.';
                     herbivore->x = new_x;
                     herbivore->y = new_y;
                     ecosystem->grid[new_x][new_y].label = 'H';
-                    if (herbivore->energy > 4){
+                    if (herbivore->energy > 4) {
                         printf("Herbivoro en (%d, %d) comio una planta, pero no obtendra mas energia \n", new_x, new_y);
-                    }else{
+                    } else {
                         herbivore->energy += 1;
                     }
 
@@ -178,12 +204,12 @@ void herbivore_behavior(Ecosystem *ecosystem, int x, int y) {
     }
 
     if (herbivore->energy <= 0) {
-//        free(herbivore);
         ecosystem->grid[x][y].entity = NULL;
         ecosystem->grid[x][y].label = '.';
         printf("Herbivoro muerto en (%d, %d) por falta de energia\n", x, y);
     }
 }
+
 
 void carnivore_behavior(Ecosystem *ecosystem, int x, int y) {
     Carnivore *carnivore = (Carnivore *)ecosystem->grid[x][y].entity;
@@ -237,7 +263,7 @@ void carnivore_behavior(Ecosystem *ecosystem, int x, int y) {
                     carnivore->x = new_x;
                     carnivore->y = new_y;
                     if (carnivore->energy > 4){
-                        printf("Carnivoro en (%d, %d) comio una planta, pero no obtendra mas energia \n", new_x, new_y);
+                        printf("Carnivoro en (%d, %d) comio un herbivoro, pero no obtendra mas energia \n", new_x, new_y);
                     }else{
                         carnivore->energy += 1;
                     }

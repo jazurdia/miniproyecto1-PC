@@ -98,7 +98,7 @@ int main() {
                 }
             }
         }
-        if (cycle % 100 == 0) {
+        if (cycle % 500 == 0) {
             printf("Ciclo %d:\n", cycle);
             print_ecosystem(&ecosystem);
         }

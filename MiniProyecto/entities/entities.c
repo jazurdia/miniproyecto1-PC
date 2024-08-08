@@ -3,26 +3,6 @@
 #include <stdio.h>
 #include <omp.h>
 
-/*
-void free_plant(Plant *plant) {
-    if (plant) {
-        free(plant);
-    }
-}
-
-void free_herbivore(Herbivore *herbivore) {
-    if (herbivore) {
-        free(herbivore);
-    }
-}
-
-void free_carnivore(Carnivore *carnivore) {
-    if (carnivore) {
-        free(carnivore);
-    }
-}
- */
-
 // Setea el HasMovedInThisTurn de todas las entidades en el ecosistema a 0
 void reset_has_moved(Ecosystem *ecosystem) {
 #pragma omp parallel for collapse(2)

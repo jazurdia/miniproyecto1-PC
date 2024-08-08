@@ -105,7 +105,16 @@ int main() {
     }
     print_ecosystem(&ecosystem);
 
-
+    // Limpia la memoria de las entidades
+    for (int i = 0; i < MATRIX_SIZE; i++) {
+        for (int j = 0; j < MATRIX_SIZE; j++) {
+            if (ecosystem.grid[i][j].entity != NULL) {
+                free(ecosystem.grid[i][j].entity);
+            }
+        }
+    }
+//    printf("Presione una tecla para salir...\n");
+//    getchar();
 
     return 0;
 }

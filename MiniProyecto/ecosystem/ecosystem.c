@@ -32,6 +32,10 @@ void enable_virtual_terminal_processing() {
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
 void print_ecosystem(const Ecosystem *ecosystem) {
+    int plant_count = 0;
+    int herbivore_count = 0;
+    int carnivore_count = 0;
+
     printf("  ");  // Espacio inicial para la etiqueta de columna
     // Imprimir encabezados de columnas
     for (int j = 0; j < MATRIX_SIZE; j++) {
@@ -52,12 +56,15 @@ void print_ecosystem(const Ecosystem *ecosystem) {
                 switch (label) {
                     case 'P':
                         printf(ANSI_COLOR_GREEN "P  " ANSI_COLOR_RESET);
+                        plant_count++;
                         break;
                     case 'H':
                         printf(ANSI_COLOR_BLUE "H  " ANSI_COLOR_RESET);
+                        herbivore_count++;
                         break;
                     case 'C':
                         printf(ANSI_COLOR_ORANGE "C  " ANSI_COLOR_RESET);
+                        carnivore_count++;
                         break;
                     default:
                         printf("?  ");
@@ -67,4 +74,12 @@ void print_ecosystem(const Ecosystem *ecosystem) {
         }
         printf("\n");
     }
+
+    printf("Recuento de entidades:\n");
+
+    // Imprimir los contadores
+    printf("Plantas: %d\n", plant_count);
+    printf("Herbivoros: %d\n", herbivore_count);
+    printf("Carnivoros: %d\n", carnivore_count);
+    printf("\n\n\n");
 }

@@ -6,6 +6,7 @@
 
 
 void initialize_ecosystem(Ecosystem *ecosystem) {
+#pragma omp parallel for collapse(2)
     for (int i = 0; i < MATRIX_SIZE; i++) {
         for (int j = 0; j < MATRIX_SIZE; j++) {
             ecosystem->grid[i][j].x = i;

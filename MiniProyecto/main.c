@@ -103,6 +103,7 @@ int main() {
             print_ecosystem(&ecosystem);
         }
     }
+    printf("Ciclo %d:\n", CICLOS);
     print_ecosystem(&ecosystem);
 
     return 0;

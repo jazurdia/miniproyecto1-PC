@@ -1,4 +1,7 @@
 # Simulación de Ecosistema
+*Miniproyecto de Computación Paralela*
+
+---
 
 Este proyecto implementa una simulación básica de un ecosistema en C. La simulación modela un ecosistema en una cuadrícula donde coexisten plantas, herbívoros y carnívoros. Las entidades pueden moverse, reproducirse y competir por recursos a lo largo de múltiples ciclos de simulación.
 

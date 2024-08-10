@@ -3,7 +3,7 @@
 
 #define MATRIX_SIZE 60
 #define PLANTS_EXPAND_PROB 0.3
-#define CICLOS 200
+#define CICLOS 4000
 
 
 #define INITIAL_PLANTS 30

@@ -4,7 +4,11 @@
 #include "../entities/entities.h"
 #include <windows.h>
 
-
+/*
+* Inicializa el ecosistema con celdas vacías
+*
+* @param ecosystem Ecosistema a inicializar
+*/
 void initialize_ecosystem(Ecosystem *ecosystem) {
 #pragma omp parallel for collapse(2)
     for (int i = 0; i < MATRIX_SIZE; i++) {
@@ -17,6 +21,10 @@ void initialize_ecosystem(Ecosystem *ecosystem) {
     }
 }
 
+/*
+* Funcion auxiliar para habilitar la impresión a color del emulador de terminal
+*
+*/
 void enable_virtual_terminal_processing() {
     HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     DWORD dwMode = 0;
@@ -31,6 +39,11 @@ void enable_virtual_terminal_processing() {
 #define ANSI_COLOR_ORANGE  "\x1b[33m"  // Naranja puede ser representado con amarillo
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
+/*
+* Imprime el ecosistema en la consola
+*
+* @param ecosystem Ecosistema a imprimir
+*/
 void print_ecosystem(const Ecosystem *ecosystem) {
     int plant_count = 0;
     int herbivore_count = 0;

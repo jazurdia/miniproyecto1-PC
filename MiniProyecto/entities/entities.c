@@ -3,7 +3,13 @@
 #include <stdio.h>
 #include <omp.h>
 
+
 // Setea el HasMovedInThisTurn de todas las entidades en el ecosistema a 0
+
+/*
+* Función que libera la memoria de un herbívoro
+* @param herbivore: Herbívoro a liberar
+*/
 void reset_has_moved(Ecosystem *ecosystem) {
 #pragma omp parallel for collapse(2)
     for (int i = 0; i < MATRIX_SIZE; i++) {
@@ -22,6 +28,14 @@ void reset_has_moved(Ecosystem *ecosystem) {
 }
 
 // Inicializa una planta en una posición específica
+
+/*
+* Función que crea una nueva planta en el ecosistema
+* @param ecosystem: Ecosistema en el que se creará la planta
+* @param x: Posición x de la planta
+* @param y: Posición y de la planta
+* @param hasMovedInThisTurn: Indica si la planta se ha movido en este turno
+*/
 void initialize_plant(Ecosystem *ecosystem, int x, int y, int hasMovedInThisTurn) {
     Plant *plant = (Plant *)malloc(sizeof(Plant));
     if (plant == NULL) {
@@ -39,6 +53,14 @@ void initialize_plant(Ecosystem *ecosystem, int x, int y, int hasMovedInThisTurn
 }
 
 // Inicializa un herbívoro en una posición específica
+
+/*
+* Función que crea un nuevo herbívoro en el ecosistema
+* @param ecosystem: Ecosistema en el que se creará el herbívoro
+* @param x: Posición x del herbívoro
+* @param y: Posición y del herbívoro
+* @param hasMovedInThisTurn: Indica si el herbívoro se ha movido en este turno
+*/
 void initialize_herbivore(Ecosystem *ecosystem, int x, int y, int hasMovedInThisTurn) {
     Herbivore *herbivore = (Herbivore *)malloc(sizeof(Herbivore));
     if (herbivore == NULL) {
@@ -57,6 +79,14 @@ void initialize_herbivore(Ecosystem *ecosystem, int x, int y, int hasMovedInThis
 }
 
 // Inicializa un carnívoro en una posición específica
+
+/*
+* Función que crea un nuevo carnívoro en el ecosistema
+* @param ecosystem: Ecosistema en el que se creará el carnívoro
+* @param x: Posición x del carnívoro
+* @param y: Posición y del carnívoro
+* @param hasMovedInThisTurn: Indica si el carnívoro se ha movido en este turno
+*/
 void initialize_carnivore(Ecosystem *ecosystem, int x, int y, int hasMovedInThisTurn) {
     Carnivore *carnivore = (Carnivore *)malloc(sizeof(Carnivore));
     if (carnivore == NULL) {
@@ -74,6 +104,12 @@ void initialize_carnivore(Ecosystem *ecosystem, int x, int y, int hasMovedInThis
     ecosystem->grid[x][y].label = 'C'; // Cambiar la etiqueta de la celda
 }
 
+/*
+* Función que define el comportamiento de las plantas en el ecosistema
+* @param ecosystem: Ecosistema en el que se encuentran las plantas
+* @param x: Posición x de la planta
+* @param y: Posición y de la planta
+*/
 void plant_behavior(Ecosystem *ecosystem, int x, int y) {
     Plant *plant = (Plant *)ecosystem->grid[x][y].entity;
     if (plant == NULL || !plant->alive || plant->hasMovedInThisTurn == 1) return;
@@ -112,6 +148,12 @@ void plant_behavior(Ecosystem *ecosystem, int x, int y) {
 
 }
 
+/*
+* Función que define el comportamiento de los herbívoros en el ecosistema
+* @param ecosystem: Ecosistema en el que se encuentran los herbívoros
+* @param x: Posición x del herbívoro
+* @param y: Posición y del herbívoro
+*/
 void herbivore_behavior(Ecosystem *ecosystem, int x, int y) {
     Herbivore *herbivore = (Herbivore *)ecosystem->grid[x][y].entity;
     if (herbivore == NULL || !herbivore->alive || herbivore->hasMovedInThisTurn == 1) return;
@@ -244,7 +286,12 @@ void herbivore_behavior(Ecosystem *ecosystem, int x, int y) {
 
 }
 
-
+/*
+* Función que define el comportamiento de los carnívoros en el ecosistema
+* @param ecosystem: Ecosistema en el que se encuentran los carnívoros
+* @param x: Posición x del carnívoro
+* @param y: Posición y del carnívoro
+*/
 void carnivore_behavior(Ecosystem *ecosystem, int x, int y) {
     Carnivore *carnivore = (Carnivore *)ecosystem->grid[x][y].entity;
     if (carnivore == NULL || !carnivore->alive || carnivore->hasMovedInThisTurn == 1) return;

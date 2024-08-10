@@ -7,6 +7,13 @@
 #include <omp.h>
 #include <unistd.h>
 
+
+/*
+* Inicializa las plantas en el grid (Ecosistema), 
+usando la función initialize_plant y asignando valores aleatorios a las posiciones x, y.
+Esta función es parallelizable, ya que cada planta se inicializa de forma independiente.
+* @param ecosystem: Ecosistema
+*/
 void initialize_Plants(Ecosystem *ecosystem) {
 #pragma omp parallel for
     for (int i = 0; i < INITIAL_PLANTS; i++) {
@@ -26,6 +33,12 @@ void initialize_Plants(Ecosystem *ecosystem) {
     }
 }
 
+/*
+* Inicializa los herbívoros en el grid (Ecosistema),
+usando la función initialize_herbivore y asignando valores aleatorios a las posiciones x, y.
+Esta función es parallelizable, ya que cada herbívoro se inicializa de forma independiente.
+* @param ecosystem: Ecosistema
+*/
 void initialize_herbivores(Ecosystem *ecosystem) {
 #pragma omp parallel for
     for (int i = 0; i < INITIAL_HERBIVORES; i++) {
@@ -45,6 +58,12 @@ void initialize_herbivores(Ecosystem *ecosystem) {
     }
 }
 
+/*
+* Inicializa los carnívoros en el grid (Ecosistema),
+usando la función initialize_carnivore y asignando valores aleatorios a las posiciones x, y.
+Esta función es parallelizable, ya que cada carnívoro se inicializa de forma independiente.
+* @param ecosystem: Ecosistema
+*/
 void initialize_carnivores(Ecosystem *ecosystem) {
 #pragma omp parallel for
     for (int i = 0; i < INITIAL_CARNIVORES; i++) {
@@ -72,11 +91,22 @@ int main() {
     srand(70); // Inicializa la semilla para números aleatorios
 
     // Inicializa algunas plantas, herbívoros y carnívoros en posiciones aleatorias
-
-    initialize_Plants(&ecosystem);
-    initialize_herbivores(&ecosystem);
-    initialize_carnivores(&ecosystem);
-
+    omp_set_num_threads(3);
+#pragma omp parallel sections
+    {
+#pragma omp section
+        {
+            initialize_Plants(&ecosystem);
+        }
+#pragma omp section
+        {
+            initialize_herbivores(&ecosystem);
+        }
+#pragma omp section
+        {
+            initialize_carnivores(&ecosystem);
+        }
+    }
 
     print_ecosystem(&ecosystem);
     // Simula la evolución del ecosistema por varios ciclos
@@ -84,6 +114,7 @@ int main() {
 //        sleep(1);
 
         reset_has_moved(&ecosystem);
+
 #pragma omp parallel for collapse(2)
         for (int i = 0; i < MATRIX_SIZE; i++) {
             for (int j = 0; j < MATRIX_SIZE; j++) {
@@ -98,7 +129,7 @@ int main() {
                 }
             }
         }
-        if (cycle % 20 == 0) {
+        if (cycle % 1000 == 0) {
             printf("Ciclo %d:\n", cycle);
             print_ecosystem(&ecosystem);
         }

@@ -23,7 +23,7 @@ const FeatureList = [
   },
   {
     title: 'Diego Morales',
-    Svg: require('@site/static/img/mora.png').default,
+    Svg: require('@site/static/img/mora.jpeg').default,
     description: (
       <>
         Hola mundo! Mi nombre es Diego Morales, vivo en Guatemala y soy estudiante de Ciencias de la Computación y desarrollador de integraciones con SAP Business One. Actualmente, estoy cursando mi cuarto año de Ingeniería en Ciencias de la Computación y Tecnologías de la Información en la Universidad del Valle de Guatemala. Soy un apasionado de la tecnología y me encanta aprender cosas nuevas. Me gusta trabajar en equipo y compartir mis conocimientos con los demás. 
